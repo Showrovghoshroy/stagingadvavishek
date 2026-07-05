@@ -17,8 +17,29 @@
   --navy:#1E3A5F;
   --navy-deep:#162C49;
   --border:#E5E7EB;
+  --header-bg:rgba(255,255,255,.92);
+  --btn-bg:#1E3A5F;
+  --btn-bg-hover:#162C49;
+  --btn-text:#FFFFFF;
+  --footer-bg:#1A1A1A;
+  --card-shadow:0 14px 40px rgba(26,26,26,.07);
   --serif:'Cormorant Garamond', Georgia, serif;
   --sans:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+[data-theme="dark"]{
+  --white:#0E1216;
+  --bg-soft:#141A21;
+  --ink:#E8EAED;
+  --muted:#9AA4B2;
+  --navy:#8FB3DE;
+  --navy-deep:#A9C6E8;
+  --border:#232C37;
+  --header-bg:rgba(14,18,22,.9);
+  --btn-bg:#8FB3DE;
+  --btn-bg-hover:#A9C6E8;
+  --btn-text:#0E1216;
+  --footer-bg:#090C10;
+  --card-shadow:0 14px 40px rgba(0,0,0,.45);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -29,6 +50,7 @@ body{
   line-height:1.65;
   font-size:16px;
   -webkit-font-smoothing:antialiased;
+  transition:background .35s ease,color .35s ease;
 }
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
@@ -51,22 +73,23 @@ section{padding:104px 0}
 /* ---------- Navigation ---------- */
 header{
   position:fixed;top:0;left:0;right:0;z-index:100;
-  background:rgba(255,255,255,.92);backdrop-filter:blur(12px);
+  background:var(--header-bg);backdrop-filter:blur(12px);
   border-bottom:1px solid transparent;
-  transition:border-color .3s ease;
+  transition:border-color .3s ease,background .35s ease;
 }
 header.scrolled{border-bottom-color:var(--border)}
-.nav{display:flex;align-items:center;justify-content:space-between;height:76px}
+.nav{display:flex;align-items:center;justify-content:space-between;height:76px;gap:16px}
+.nav-right{display:flex;align-items:center;gap:14px}
 .brand{display:flex;align-items:center;gap:12px}
 .brand-mark{
   width:40px;height:40px;border:1px solid var(--navy);
   display:flex;align-items:center;justify-content:center;
   font-family:var(--serif);font-weight:600;font-size:16px;color:var(--navy);
-  letter-spacing:.04em;
+  letter-spacing:.04em;flex-shrink:0;
 }
 .brand-name{font-family:var(--serif);font-size:19px;font-weight:600;letter-spacing:.01em}
 .brand-name small{display:block;font-family:var(--sans);font-size:10.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-.nav-links{display:flex;gap:34px;list-style:none;align-items:center}
+.nav-links{display:flex;gap:34px;list-style:none;align-items:center;margin-left:auto}
 .nav-links a{
   font-size:14px;font-weight:500;color:var(--ink);position:relative;padding:4px 0;
 }
@@ -75,12 +98,23 @@ header.scrolled{border-bottom-color:var(--border)}
   background:var(--navy);transition:width .3s ease;
 }
 .nav-links a:hover::after,.nav-links a:focus-visible::after{width:100%}
-.nav-cta{
-  background:var(--navy);color:#fff!important;padding:11px 22px;font-size:13.5px;
-  font-weight:500;letter-spacing:.02em;transition:background .25s ease;
+.nav-links a.nav-cta{
+  display:inline-block;background:var(--btn-bg);color:var(--btn-text);
+  padding:12px 24px;margin-left:6px;font-size:13.5px;line-height:1.4;
+  font-weight:500;letter-spacing:.02em;transition:background .25s ease,transform .25s ease;
 }
-.nav-cta::after{display:none}
-.nav-cta:hover{background:var(--navy-deep)}
+.nav-links a.nav-cta::after{display:none}
+.nav-links a.nav-cta:hover{background:var(--btn-bg-hover);transform:translateY(-1px)}
+.theme-toggle{
+  width:40px;height:40px;border:1px solid var(--border);background:transparent;
+  color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:border-color .25s ease,color .25s ease,transform .25s ease;flex-shrink:0;
+}
+.theme-toggle:hover{border-color:var(--navy);color:var(--navy);transform:rotate(15deg)}
+.theme-toggle svg{width:17px;height:17px}
+.theme-toggle .icon-moon{display:none}
+[data-theme="dark"] .theme-toggle .icon-moon{display:block}
+[data-theme="dark"] .theme-toggle .icon-sun{display:none}
 .menu-btn{display:none;background:none;border:none;cursor:pointer;padding:8px}
 .menu-btn span{display:block;width:22px;height:2px;background:var(--ink);margin:5px 0;transition:.3s}
 
@@ -109,10 +143,10 @@ header.scrolled{border-bottom-color:var(--border)}
   font-size:14px;font-weight:500;letter-spacing:.03em;
   transition:all .25s ease;cursor:pointer;border:1px solid transparent;
 }
-.btn-primary{background:var(--navy);color:#fff}
-.btn-primary:hover{background:var(--navy-deep);transform:translateY(-1px)}
+.btn-primary{background:var(--btn-bg);color:var(--btn-text)}
+.btn-primary:hover{background:var(--btn-bg-hover);transform:translateY(-1px)}
 .btn-ghost{border-color:var(--ink);color:var(--ink);background:transparent}
-.btn-ghost:hover{background:var(--ink);color:#fff}
+.btn-ghost:hover{background:var(--ink);color:var(--white)}
 .hero-highlights{
   display:flex;flex-wrap:wrap;gap:10px 26px;list-style:none;
   border-top:1px solid var(--border);padding-top:26px;max-width:560px;
@@ -126,7 +160,7 @@ header.scrolled{border-bottom-color:var(--border)}
 /* Portrait panel */
 .portrait{
   position:relative;aspect-ratio:4/5;max-width:400px;margin-left:auto;
-  background:linear-gradient(160deg,var(--navy) 0%,var(--navy-deep) 100%);
+  background:linear-gradient(160deg,#1E3A5F 0%,#162C49 100%);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   color:#fff;
 }
@@ -167,7 +201,7 @@ header.scrolled{border-bottom-color:var(--border)}
   background:var(--white);border:1px solid var(--border);padding:40px 36px;
   transition:box-shadow .3s ease,transform .3s ease;
 }
-.card:hover{box-shadow:0 14px 40px rgba(26,26,26,.07);transform:translateY(-3px)}
+.card:hover{box-shadow:var(--card-shadow);transform:translateY(-3px)}
 .card-icon{
   width:52px;height:52px;border:1px solid var(--navy);color:var(--navy);
   display:flex;align-items:center;justify-content:center;margin-bottom:24px;
@@ -255,7 +289,7 @@ form .btn{grid-column:1/-1;justify-content:center;border:none}
 .form-note{grid-column:1/-1;font-size:12.5px;color:var(--muted);text-align:center}
 
 /* ---------- Footer ---------- */
-footer{background:var(--ink);color:#fff;padding:72px 0 36px}
+footer{background:var(--footer-bg);color:#fff;padding:72px 0 36px}
 .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:56px;padding-bottom:52px;border-bottom:1px solid rgba(255,255,255,.12)}
 .footer-brand .brand-mark{border-color:rgba(255,255,255,.4);color:#fff}
 .footer-brand p{color:rgba(255,255,255,.55);font-size:14px;margin-top:18px;max-width:340px}
@@ -332,6 +366,9 @@ footer ul a:hover{color:#fff}
 .btn{position:relative;overflow:hidden}
 .btn-primary::after{
   content:"";position:absolute;inset:0;background:rgba(255,255,255,.14);
+}
+[data-theme="dark"] .btn-primary::after{background:rgba(0,0,0,.1)}
+.btn-primary::after{
   transform:translateX(-101%);transition:transform .45s cubic-bezier(.22,1,.36,1);
 }
 .btn-primary:hover::after{transform:translateX(0)}
@@ -345,17 +382,18 @@ footer ul a:hover{color:#fff}
 }
 .card:hover::after{transform:scaleX(1)}
 .card-icon{transition:background .3s ease,color .3s ease}
-.card:hover .card-icon{background:var(--navy);color:#fff}
+.card:hover .card-icon{background:var(--btn-bg);color:var(--btn-text)}
 .why-card{transition:transform .35s ease}
 .why-card:hover{transform:translateY(-4px)}
 .edu-card{transition:box-shadow .3s ease,transform .3s ease}
-.edu-card:hover{box-shadow:0 12px 34px rgba(26,26,26,.06);transform:translateY(-3px)}
+.edu-card:hover{box-shadow:var(--card-shadow);transform:translateY(-3px)}
 .contact-icon{transition:background .3s ease,color .3s ease}
-.contact-item:hover .contact-icon{background:var(--navy);color:#fff}
+.contact-item:hover .contact-icon{background:var(--btn-bg);color:var(--btn-text)}
 .values li{transition:background .3s ease}
 .values li:hover{background:var(--bg-soft)}
 input,textarea{transition:border-color .25s ease,box-shadow .25s ease}
 input:focus,textarea:focus{box-shadow:0 0 0 3px rgba(30,58,95,.08)}
+[data-theme="dark"] input:focus,[data-theme="dark"] textarea:focus{box-shadow:0 0 0 3px rgba(143,179,222,.15)}
 footer ul a{transition:color .25s ease,padding-left .25s ease}
 footer ul a:hover{padding-left:4px}
 
@@ -399,6 +437,14 @@ footer ul a:hover{padding-left:4px}
   form{grid-template-columns:1fr}
 }
 </style>
+<script>
+(function(){
+  var t;
+  try { t = localStorage.getItem('theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
 </head>
 <body>
 
@@ -411,9 +457,6 @@ footer ul a:hover{padding-left:4px}
       <span class="brand-mark" aria-hidden="true">AD</span>
       <span class="brand-name">Avisekh Das Gupta<small>Advocate · Chattogram</small></span>
     </a>
-    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
     <ul class="nav-links" id="navLinks">
       <li><a href="#about">About</a></li>
       <li><a href="#practice">Practice Areas</a></li>
@@ -421,6 +464,15 @@ footer ul a:hover{padding-left:4px}
       <li><a href="#skills">Skills</a></li>
       <li><a href="#contact" class="nav-cta">Book a Consultation</a></li>
     </ul>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Switch between dark and light mode">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+      </button>
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -764,6 +816,14 @@ footer ul a:hover{padding-left:4px}
 </footer>
 
 <script>
+// Dark / light mode toggle
+const themeToggle = document.getElementById('themeToggle');
+themeToggle.addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  try { localStorage.setItem('theme', next); } catch(e){}
+});
+
 // Header border + scroll progress
 const header = document.getElementById('header');
 const progress = document.getElementById('progress');
